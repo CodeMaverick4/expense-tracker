@@ -1,17 +1,17 @@
-import { updateProfile } from "firebase/auth";
+import { onAuthStateChanged, updateProfile } from "firebase/auth";
 import { auth } from "../firebase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Profile = () => {
-    const [displayName ,setDisplayName]= useState('');
-    const [photoUrl ,setPhotoUrl]= useState('')
+    const [displayName, setDisplayName] = useState('');
+    const [photoUrl, setPhotoUrl] = useState('')
 
     const updateUserProfile = async () => {
-        if( displayName === '' ){
+        if (displayName === '') {
             alert("Please enter profile name.")
             return
         }
-        if( photoUrl === '' ){
+        if (photoUrl === '') {
             alert("Please enter photo url.")
             return
         }
@@ -31,6 +31,20 @@ const Profile = () => {
         }
     }
 
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if (currentUser) {
+                setDisplayName(currentUser.displayName);
+                setPhotoUrl(currentUser.photoURL)
+                // setUser(currentUser);
+            }
+        });
+
+        return () => unsubscribe(); // cleanup on unmount
+    }, []);
+
+    // console.log(user);
     return (
         <>
             <div className="p-3 border-bottom border-black d-flex justify-content-between align-items-center ">
@@ -51,12 +65,12 @@ const Profile = () => {
                 <div className="form-fields">
                     <div className="form-group">
                         <label htmlFor="fullname">Full Name:</label>
-                        <input type="text" id="fullname" placeholder="Enter full name" onChange={(e)=>setDisplayName(e.target.value)}/>
+                        <input type="text" id="fullname" placeholder="Enter full name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="profile">Profile Photo URL:</label>
-                        <input type="text" id="profile" placeholder="Enter photo URL" onChange={(e)=>setPhotoUrl(e.target.value)}/>
+                        <input type="text" id="profile" placeholder="Enter photo URL" value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} />
                     </div>
                 </div>
 
