@@ -1,10 +1,11 @@
-import { onAuthStateChanged, updateProfile } from "firebase/auth";
+import { onAuthStateChanged, sendEmailVerification, updateProfile } from "firebase/auth";
 import { auth } from "../firebase";
 import { useEffect, useState } from "react";
 
 const Profile = () => {
     const [displayName, setDisplayName] = useState('');
-    const [photoUrl, setPhotoUrl] = useState('')
+    const [photoUrl, setPhotoUrl] = useState('');
+    const [email, setEmail] = useState('');
 
     const updateUserProfile = async () => {
         if (displayName === '') {
@@ -31,12 +32,22 @@ const Profile = () => {
         }
     }
 
+    const handleVerifyEmail = async () => {
+        try {
+            await getOobConfirmationCode(email);
+            alert("Email verified successfully.");
+        }
+        catch (err) {
+            alert(err.message)
+        }
+    }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             if (currentUser) {
                 setDisplayName(currentUser.displayName);
-                setPhotoUrl(currentUser.photoURL)
+                setPhotoUrl(currentUser.photoURL);
+                setEmail(currentUser.email);
                 // setUser(currentUser);
             }
         });
@@ -65,14 +76,26 @@ const Profile = () => {
                 <div className="form-fields">
                     <div className="form-group">
                         <label htmlFor="fullname">Full Name:</label>
-                        <input type="text" id="fullname" placeholder="Enter full name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+                        <div className="border border-black rounded-2"><input type="text" id="fullname" placeholder="Enter full name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} /></div>
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="profile">Profile Photo URL:</label>
-                        <input type="text" id="profile" placeholder="Enter photo URL" value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} />
+                        <div className="border border-black rounded-2"><input type="text" id="profile" placeholder="Enter photo URL" value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} /></div>
                     </div>
                 </div>
+
+                <div className="form-group my-3">
+                    <label htmlFor="profile">Email</label>
+                    <div className="d-flex gap-2">
+                        <div className=" border border-black rounded-2 flex-grow-1"><input type="text" id="profile" placeholder="Enter photo URL" value={email} onChange={(e) => setEmail(e.target.value)} /></div>
+                        <button className="update-btn" onClick={handleVerifyEmail}>Verfiy</button>
+                        {/* <div class="spinner-border text-light" role="status">
+  <span class="sr-only">Loading...</span>
+</div> */}
+                    </div>
+                </div>
+
 
                 {/* Update button */}
                 <button className="update-btn" onClick={updateUserProfile}>Update</button>

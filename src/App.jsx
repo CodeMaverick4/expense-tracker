@@ -7,20 +7,23 @@ import Signup from "./pages/SignUp.jsx";
 import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.jsx";
+import VerifyEmail from "./components/VerifyEmail.jsx";
 
 function App() {
   // const haveToken = localStorage.getItem('token')
   return (
     <Routes>
       {/* <Route path={'/'} element={!haveToken ? <MainLayout/> : <Navigate to={'/home'}/>}> */}
-      <Route path={'/'} element={<MainLayout/>}>
-        <Route path={'Signup'} element={<Signup/>} />
-        <Route index element={<Login/>} />
+      <Route path={'/'} element={<MainLayout />}>
+        <Route path={'Signup'} element={<Signup />} />
+        <Route index element={<Login />} />
       </Route>
 
-      {/* <Route path="/home" element={haveToken ? <Home/> : <Navigate to={'/'}/> }/> */}
-      <Route path="/home" element={<Home/> }/>
-      <Route path="/update-profile" element={<Profile/>}/>
+
+        {/* <Route path="/home" element={haveToken ? <Home/> : <Navigate to={'/'}/> }/> */}
+        <Route path={"/home"} element={<VerifyEmail><Home /></VerifyEmail>} />
+        <Route path="/update-profile" element={<Profile />} />
+
     </Routes>
   );
 }
