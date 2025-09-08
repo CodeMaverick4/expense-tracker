@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Input from "../components/Input";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -83,6 +85,11 @@ const Signup = () => {
               Sign Up
             </button>
           </form>
+
+          <button type="button" className="signup-btn" onClick={()=>navigate('/')}>
+            have an account? <span>Login</span>
+          </button>
+
         </div>
       </div>
     </div>

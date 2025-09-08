@@ -77,3 +77,16 @@ input{
     color: gray;
     margin-left: 40px;
 }
+
+.signup-btn {
+    background-color: #cde7dd; /* light greenish background */
+    border: 1px solid #d0e6db; /* subtle border */
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    margin-top: 20px;
+    font-weight: 600;
+}
