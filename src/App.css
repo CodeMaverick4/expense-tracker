@@ -13,11 +13,6 @@ input{
     width: 100%;
 }
 
-/* .input_container:focus-within { */
-    /* border: 2px solid #0d6efd; */
-    /* box-shadow: 0px 0px 5px 1px #659ae8; */
-/* } */
-
 .input_label_pos {
     position: absolute;
     top: 0px;
@@ -32,8 +27,8 @@ input{
     transition: all 0.3s ease-in-out;
 }
 
-.input_container:focus-within .input_label_pos {
-    color: var(--Main);
+.input_container input:focus ~ .input_label_pos,
+.input_container input:not(:placeholder-shown) ~ .input_label_pos {
     transform: translate(0%, -70%);
     background: #fff;
     font-size: 14px;
