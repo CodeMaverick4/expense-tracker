@@ -1,0 +1,84 @@
+*{
+    font-family: monospace !important;
+}
+input{
+    border: none !important;
+    outline: none !important;
+}
+.input_container {
+    position: relative;
+    border: 2px solid grey;
+    transition: all 0.2s ease-in-out;
+    border-radius: 8px;
+    width: 100%;
+}
+
+/* .input_container:focus-within { */
+    /* border: 2px solid #0d6efd; */
+    /* box-shadow: 0px 0px 5px 1px #659ae8; */
+/* } */
+
+.input_label_pos {
+    position: absolute;
+    top: 0px;
+    transform: translate(0%, 32%);
+    left: 10px;
+    z-index: 1;
+    
+    padding: 0px 4px;
+    font-size: 17px;
+    font-weight: 600;
+    /* color: gray; */
+    transition: all 0.3s ease-in-out;
+}
+
+.input_container:focus-within .input_label_pos {
+    color: var(--Main);
+    transform: translate(0%, -70%);
+    background: #fff;
+    font-size: 14px;
+}
+
+.input_container input {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #6b6a6a;
+    height: 43px;
+    width: 100%;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+}
+
+.input_container:focus-within input {
+    color: #111;
+}
+
+.background-image {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    width: 99vw;
+    height: 99vh;
+
+    background-image: url("/background-image.jpg");
+    background-size: cover;
+    /* makes it cover full screen */
+    background-position: center;
+    /* centers the image */
+    background-repeat: no-repeat;
+    /* prevents tiling */
+    z-index: -1;
+    /* keep it behind everything */
+}
+
+.topbar-links{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: gray;
+    margin-left: 40px;
+}
