@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Input from "../components/Input";
 import { Link, useNavigate } from "react-router-dom";
-
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 const Signup = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -20,9 +21,9 @@ const Signup = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =  async (e) => {
     e.preventDefault();
-    console.log("claisjdlasjd")
+        
     if (form.email === '') {
       setError(prev => ({ ...prev, email: "Please Enter email" }))
       return
@@ -35,9 +36,18 @@ const Signup = () => {
       setError(prev => ({ ...prev, cnfPassword: "Please Enter Conform password" }))
       return
     }
-    console.log("Form Submitted: ", form);
-  };
 
+    if(form.cnfPassword !== form.password){
+      alert("Password and conform password is not same.");
+    }
+
+    try {
+      await createUserWithEmailAndPassword(auth, form.email, form.password);
+      navigate("/");
+    } catch (err) {
+      alert(err.message);
+    }
+  };
 
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
@@ -86,7 +96,7 @@ const Signup = () => {
             </button>
           </form>
 
-          <button type="button" className="signup-btn" onClick={()=>navigate('/')}>
+          <button type="button" className="signup-btn" onClick={() => navigate('/')}>
             have an account? <span>Login</span>
           </button>
 

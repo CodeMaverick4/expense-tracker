@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import {  useState } from "react";
 import Input from "../components/Input";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
 const Login = () => {
     const navigate = useNavigate();
     const [form, setForm] = useState({
         email: "",
-        password: "",
-        cnfPassword: ""
+        password: "",        
     });
     const [error, setError] = useState({
         email: "",
         password: "",
-        cnfPassword: ""
     });
 
     const handleChange = (e) => {
@@ -20,9 +20,9 @@ const Login = () => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("claisjdlasjd")
+    
         if (form.email === '') {
             setError(prev => ({ ...prev, email: "Please Enter email" }))
             return
@@ -31,11 +31,14 @@ const Login = () => {
             setError(prev => ({ ...prev, password: "Please Enter password" }))
             return
         }
-        if (form.cnfPassword === '') {
-            setError(prev => ({ ...prev, cnfPassword: "Please Enter Conform password" }))
-            return
+
+        try {
+            await signInWithEmailAndPassword(auth, form.email, form.password);
+            navigate("/home");
+        } catch (err) {
+            console.log(";aksd;a")
+            alert(err.message);
         }
-        console.log("Form Submitted: ", form);
     };
 
 
@@ -71,11 +74,11 @@ const Login = () => {
                         </div>
 
                         <button type="submit" className="btn btn-primary w-100">
-                            Sign Up
+                            Login
                         </button>
                     </form>
 
-                    <button type="button" className="signup-btn" onClick={()=>navigate('/signup')}>
+                    <button type="button" className="signup-btn" onClick={() => navigate('/signup')}>
                         Don't have an account? <span>Sign up</span>
                     </button>
                 </div>

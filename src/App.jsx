@@ -5,6 +5,7 @@ import MainLayout from "./layout/MainLayout.jsx";
 import "./App.css"
 import Signup from "./pages/SignUp.jsx";
 import Login from "./pages/Login.jsx";
+import Home from "./pages/Home.jsx";
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
         <Route path={'Signup'} element={<Signup/>} />
         <Route index element={<Login/>} />
       </Route>
+
+      <Route path="/home" element={<Home/>}/>
     </Routes>
   );
 }
