@@ -1,6 +1,10 @@
 *{
     font-family: monospace !important;
 }
+
+.cursor-pointer{
+    cursor: pointer;
+}
 input{
     border: none !important;
     outline: none !important;
@@ -61,13 +65,9 @@ input{
 
     background-image: url("/background-image.jpg");
     background-size: cover;
-    /* makes it cover full screen */
     background-position: center;
-    /* centers the image */
     background-repeat: no-repeat;
-    /* prevents tiling */
-    z-index: -1;
-    /* keep it behind everything */
+    z-index: -1;    
 }
 
 .topbar-links{
@@ -79,8 +79,8 @@ input{
 }
 
 .signup-btn {
-    background-color: #cde7dd; /* light greenish background */
-    border: 1px solid #d0e6db; /* subtle border */
+    background-color: #cde7dd; 
+    border: 1px solid #d0e6db; 
     border-radius: 6px;
     padding: 10px 20px;
     font-size: 14px;
@@ -89,4 +89,80 @@ input{
     transition: all 0.2s ease-in-out;
     margin-top: 20px;
     font-weight: 600;
+}
+
+
+
+.contact-form {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  border-bottom: 1px solid #ccc;
+}
+
+.contact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.contact-header h4 {
+  margin: 0;
+  font-weight: 500;
+}
+
+.cancel-btn {
+  background: none;
+  border: 1px solid #f08080;
+  color: #f08080;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.cancel-btn:hover {
+  background-color: #f08080;
+  color: #fff;
+}
+
+.form-fields {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.form-group label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-group input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.update-btn {
+  background-color: #b08080;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.update-btn:hover {
+  background-color: #a06060;
 }

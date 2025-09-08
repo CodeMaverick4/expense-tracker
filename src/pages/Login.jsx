@@ -33,7 +33,9 @@ const Login = () => {
         }
 
         try {
-            await signInWithEmailAndPassword(auth, form.email, form.password);
+            const res = await signInWithEmailAndPassword(auth, form.email, form.password);
+            const token = await res.user.getIdToken();
+            localStorage.setItem('token',token);
             navigate("/home");
         } catch (err) {
             console.log(";aksd;a")
