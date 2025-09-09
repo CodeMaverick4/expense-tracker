@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
 import Input from "../components/Input";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { authContext } from "../context/authContext";
 
 const Login = () => {
-    const { setUserData, handleLogin } = useContext(authContext);
+    const { isLoading, handleLogin } = useContext(authContext);
     const navigate = useNavigate();
     const [form, setForm] = useState({
         email: "",
@@ -34,7 +34,6 @@ const Login = () => {
 
         await handleLogin(form)
     };
-
 
     return (
         <div className="container d-flex justify-content-center align-items-center vh-100">
@@ -67,8 +66,9 @@ const Login = () => {
                             <p className="text-danger"><small>{error.password}</small></p>
                         </div>
 
-                        <button type="submit" className="btn btn-primary w-100">
-                            Login
+                        <Link to={'/forget-password'}>Forget Password ?</Link>
+                        <button type="submit" className="btn btn-primary w-100 mt-2">
+                            {isLoading ? "Loading...." : "Login"}
                         </button>
                     </form>
 

@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 const Signup = () => {
   const navigate = useNavigate();
+  const [isLoading,setIsLoading] = useState(false);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -23,6 +24,7 @@ const Signup = () => {
 
   const handleSubmit =  async (e) => {
     e.preventDefault();
+    if(isLoading) return
         
     if (form.email === '') {
       setError(prev => ({ ...prev, email: "Please Enter email" }))
@@ -92,7 +94,7 @@ const Signup = () => {
               <p className="text-danger" ><small>{error.cnfPassword}</small></p>
             </div>
             <button type="submit" className="btn btn-primary w-100">
-              Sign Up
+              {isLoading ? "Loading...":"Sign Up"}
             </button>
           </form>
 

@@ -1,10 +1,7 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { authContext } from '../context/authContext';
 
 const Topbar = () => {
-  const { userData,handleLogout } = useContext(authContext);
-
+ 
   return (
     <nav className="d-flex align-items-center gap-3  py-3 px-4 fs-5 justify-content-between">
       <div className='d-flex align-items-center gap-3 text-nowrap'>
@@ -15,8 +12,6 @@ const Topbar = () => {
           <Link to={''}>About Us</Link>
         </div>
       </div>
-
-     {userData && <button className='btn btn-danger' onClick={handleLogout}>Logout</button>}
     </nav>
   );
 };

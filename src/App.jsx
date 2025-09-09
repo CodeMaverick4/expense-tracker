@@ -9,6 +9,7 @@ import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.jsx";
 import VerifyEmail from "./components/VerifyEmail.jsx";
 import IsLoggedIn from "./components/isLoggedIn.jsx";
+import ForgetPassword from "./pages/forgetPassword.jsx";
 
 function App() {
   // const haveToken = localStorage.getItem('token')
@@ -18,6 +19,7 @@ function App() {
       <Route path={'/'} element={<MainLayout />}>
         <Route path={'Signup'} element={<Signup />} />
         <Route index element={<Login />} />
+        <Route path={"/forget-password"} element={<ForgetPassword />} />
       </Route>
 
       <Route path={"/home"} element={<IsLoggedIn><VerifyEmail><Home /></VerifyEmail></IsLoggedIn>} />

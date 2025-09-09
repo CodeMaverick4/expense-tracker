@@ -1,11 +1,12 @@
 import { onAuthStateChanged, sendEmailVerification, updateProfile } from "firebase/auth";
 import { auth } from "../firebase";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { authContext } from "../context/authContext";
 
 const Profile = () => {
+    const { userData, handleLogout } = useContext(authContext)
     const [displayName, setDisplayName] = useState('');
     const [photoUrl, setPhotoUrl] = useState('');
-    const [email, setEmail] = useState('');
 
     const updateUserProfile = async () => {
         if (displayName === '') {
@@ -32,37 +33,17 @@ const Profile = () => {
         }
     }
 
-    const handleVerifyEmail = async () => {
-        try {
-            await getOobConfirmationCode(email);
-            alert("Email verified successfully.");
-        }
-        catch (err) {
-            alert(err.message)
-        }
-    }
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            if (currentUser) {
-                setDisplayName(currentUser.displayName);
-                setPhotoUrl(currentUser.photoURL);
-                setEmail(currentUser.email);
-                // setUser(currentUser);
-            }
-        });
-
-        return () => unsubscribe(); // cleanup on unmount
-    }, []);
-
-    // console.log(user);
     return (
         <>
             <div className="p-3 border-bottom border-black d-flex justify-content-between align-items-center ">
                 <h4>Winners never quite, Quitters never win.</h4>
 
-                <span className="px-3 py-1 cusor-pointer rounded-4" style={{ width: '400px', backgroundColor: '#E8DADC' }}> Your profile is <b>64%</b> completed. A complete profile have higher chances of landing a job.
-                    <span style={{ color: '#6041D5' }}>Complete now</span></span>
+                <div>
+                    <span className="px-3 py-1 cusor-pointer rounded-4" style={{ width: '400px', backgroundColor: '#E8DADC' }}> Your profile is <b>64%</b> completed. A complete profile have higher chances of landing a job.
+                        <span style={{ color: '#6041D5' }}>Complete now</span></span>
+
+                    {userData && <button className='btn btn-danger ms-3' onClick={handleLogout}>Logout</button>}
+                </div>
             </div>
 
             <div className="contact-form">
@@ -84,18 +65,6 @@ const Profile = () => {
                         <div className="border border-black rounded-2"><input type="text" id="profile" placeholder="Enter photo URL" value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} /></div>
                     </div>
                 </div>
-
-                <div className="form-group my-3">
-                    <label htmlFor="profile">Email</label>
-                    <div className="d-flex gap-2">
-                        <div className=" border border-black rounded-2 flex-grow-1"><input type="text" id="profile" placeholder="Enter photo URL" value={email} onChange={(e) => setEmail(e.target.value)} /></div>
-                        <button className="update-btn" onClick={handleVerifyEmail}>Verfiy</button>
-                        {/* <div class="spinner-border text-light" role="status">
-  <span class="sr-only">Loading...</span>
-</div> */}
-                    </div>
-                </div>
-
 
                 {/* Update button */}
                 <button className="update-btn" onClick={updateUserProfile}>Update</button>
