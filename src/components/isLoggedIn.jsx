@@ -1,11 +1,12 @@
 import { useContext } from "react"
 import { authContext } from "../context/authContext"
 import { Navigate } from "react-router-dom"
+import VerifyEmail from "./VerifyEmail"
 
 const IsLoggedIn = ({children})=>{
     const {userData} = useContext(authContext)
     return(
-        userData ? children: <Navigate to={"/"} /> 
+        userData ? <VerifyEmail>{children}</VerifyEmail>: <Navigate to={"/"} /> 
     )
 }
 

@@ -1,5 +1,6 @@
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import MainLayout from "./layout/MainLayout.jsx";
 import "./App.css";
@@ -22,7 +23,7 @@ function App() {
         <Route path={"/forget-password"} element={<ForgetPassword />} />
       </Route>
 
-      <Route path={"/home"} element={<IsLoggedIn><VerifyEmail><Home /></VerifyEmail></IsLoggedIn>} />
+      <Route path={"/home"} element={<IsLoggedIn><Home /></IsLoggedIn>} />
       <Route path="/update-profile" element={<IsLoggedIn><Profile /></IsLoggedIn>} />
 
       <Route path="*" element={<p>route not exist</p>} />

@@ -2,6 +2,9 @@
     font-family: monospace !important;
 }
 
+h1,h2,h3,h4,h5.h6{
+  margin: 0px !important;
+}
 .cursor-pointer{
     cursor: pointer;
 }
@@ -165,4 +168,23 @@ input{
 
 .update-btn:hover {
   background-color: #a06060;
+}
+
+.expense-select {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.expense-select:focus {
+  border-color: #6c63ff;
+  box-shadow: 0 0 4px rgba(108, 99, 255, 0.4);
+}
+
+.expense-select option {
+  padding: 10px;
 }
