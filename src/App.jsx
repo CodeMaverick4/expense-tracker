@@ -8,22 +8,22 @@ import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.jsx";
 import VerifyEmail from "./components/VerifyEmail.jsx";
+import IsLoggedIn from "./components/isLoggedIn.jsx";
 
 function App() {
   // const haveToken = localStorage.getItem('token')
   return (
     <Routes>
-      {/* <Route path={'/'} element={!haveToken ? <MainLayout/> : <Navigate to={'/home'}/>}> */}
+
       <Route path={'/'} element={<MainLayout />}>
         <Route path={'Signup'} element={<Signup />} />
         <Route index element={<Login />} />
       </Route>
 
+      <Route path={"/home"} element={<IsLoggedIn><VerifyEmail><Home /></VerifyEmail></IsLoggedIn>} />
+      <Route path="/update-profile" element={<IsLoggedIn><Profile /></IsLoggedIn>} />
 
-        {/* <Route path="/home" element={haveToken ? <Home/> : <Navigate to={'/'}/> }/> */}
-        <Route path={"/home"} element={<VerifyEmail><Home /></VerifyEmail>} />
-        <Route path="/update-profile" element={<Profile />} />
-
+      <Route path="*" element={<p>route not exist</p>} />
     </Routes>
   );
 }

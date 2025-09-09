@@ -1,14 +1,14 @@
-import {  useState } from "react";
+import { useContext, useState } from "react";
 import Input from "../components/Input";
-import {  useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
+import { authContext } from "../context/authContext";
 
 const Login = () => {
+    const { setUserData, handleLogin } = useContext(authContext);
     const navigate = useNavigate();
     const [form, setForm] = useState({
         email: "",
-        password: "",        
+        password: "",
     });
     const [error, setError] = useState({
         email: "",
@@ -22,7 +22,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         if (form.email === '') {
             setError(prev => ({ ...prev, email: "Please Enter email" }))
             return
@@ -32,15 +32,7 @@ const Login = () => {
             return
         }
 
-        try {
-            const res = await signInWithEmailAndPassword(auth, form.email, form.password);
-            const token = await res.user.getIdToken();
-            localStorage.setItem('token',token);
-            navigate("/home");
-        } catch (err) {
-            console.log(";aksd;a")
-            alert(err.message);
-        }
+        await handleLogin(form)
     };
 
 

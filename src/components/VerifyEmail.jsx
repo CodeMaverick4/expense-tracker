@@ -1,36 +1,28 @@
-import { useEffect, useState } from "react";
-import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { useContext } from "react";
+import { authContext } from "../context/authContext";
+import { sendEmailVerification } from "firebase/auth";
 
 const VerifyEmail = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const { userData } = useContext(authContext)
+    const handleEmailVerification = async () => {
+        try {
+            await sendEmailVerification(userData);
+            alert("Verification email sent! Check your inbox.");
+        } catch (error) {
+            console.error("Error sending verification email:", error);
+        }
+    }
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-            console.log("User:", currentUser);
-        });
 
-        return () => unsubscribe();
-    }, []);
-
-    console.log(user)
     return (
         <div>
-            {user.emailVerified ?
+            {userData.emailVerified ?
                 children :
                 <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                    <button className="update-btn" onClick={() => user.sendEmailVerification()}>Verify Email</button>
+                    <button className="update-btn" onClick={handleEmailVerification}>Verify Email</button>
                 </div>
             }
-            {/* {user.} */}
-            {/* {user ? (
-                user.emailVerified
-                    ? <p>Email verified </p>
-                    : <button onClick={() => user.sendEmailVerification()}>Verify Email</button>
-            ) : (
-                <p>Loading user...</p>
-            )} */}
+
         </div>
     );
 };
