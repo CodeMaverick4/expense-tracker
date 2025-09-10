@@ -1,14 +1,21 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
-import { authContext } from "../context/authContext";
+
 import Input from "../components/Input";
 import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from '../redux/slice/authSlicer'
+import { setExpenses } from "../redux/slice/expenseSlicer";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { userData, handleLogout } = useContext(authContext)
+  
+  const userData = useSelector(state => state.auth.user);
+  const dispatch = useDispatch();
+  
   const [expenseForm, setExpenseForm] = useState({ amount: "", description: "", category: "" });
-  const [expenses, setExpenses] = useState([]);
+  // const [expenses, setExpenses] = useState([]);
+  const expenses = useSelector(state=>state.expenses.expenses)
   const [isLoading, setIsLoading] = useState(false);
   const [isAddingExpense, setIsAddingExpense] = useState(false);
   const [editExpense, setEditExpense] = useState(null);
@@ -51,10 +58,10 @@ const Home = () => {
   }
 
   const deleteExpense = async (id) => {
-    try{
+    try {
       const res = await axios.delete(`https://todo-app-75d12-default-rtdb.firebaseio.com/expenses/${id}.json`);
       await loadExpenses()
-    }catch(err){
+    } catch (err) {
       alert(err.message)
     }
   }
@@ -67,7 +74,8 @@ const Home = () => {
       for (let key in res.data) {
         expensesArr.push({ key: key, ...res.data[key] });
       }
-      setExpenses(expensesArr);
+      // setExpenses(expensesArr);
+      dispatch(setExpenses(expensesArr))
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
@@ -80,6 +88,10 @@ const Home = () => {
     setEditExpense(expense.key);
   }
 
+  const handleLogout = () => {
+    dispatch(logout())
+    navigate('/')
+  }
   useEffect(() => {
     loadExpenses();
   }, [])
@@ -123,14 +135,14 @@ const Home = () => {
             <option value="other">Other</option>
           </select>
           <div className="text-nowrap">
-            <button className="update-btn" onClick={handleAddExpense}>{isAddingExpense ? "Loading..." : editExpense ? "Edit Expense":"Add Expense"}</button>
+            <button className="update-btn" onClick={handleAddExpense}>{isAddingExpense ? "Loading..." : editExpense ? "Edit Expense" : "Add Expense"}</button>
           </div>
         </div>
 
         <div className="d-flex flex-column align-items-center gap-3 my-5">
           {/* card  */}
           {isLoading && <p>Loading... Expenses</p>}
-          {expenses.length === 0  && <p>No expenses to show ...</p>}
+          {expenses.length === 0 && <p>No expenses to show ...</p>}
           {!isLoading && expenses.length > 0 && expenses.map(expense =>
             <div key={expense.key} className="d-flex rounded-3 border border-white py-3 px-4 text-white w-50  bg-black">
               <div className="flex-grow-1">
@@ -141,8 +153,8 @@ const Home = () => {
                 <p>{expense.description}</p>
               </div>
               <div className="d-flex align-items-center gap-3 justify-content-center fs-3" style={{ width: '15%' }}>
-                <i class="bi bi-pencil-square cursor-pointer" onClick={() => handleEditExpense(expense)}></i>
-                <i class="bi bi-trash-fill cursor-pointer"onClick={()=>deleteExpense(expense.key)}></i>
+                <i className="bi bi-pencil-square cursor-pointer" onClick={() => handleEditExpense(expense)}></i>
+                <i className="bi bi-trash-fill cursor-pointer" onClick={() => deleteExpense(expense.key)}></i>
               </div>
             </div>
           )}

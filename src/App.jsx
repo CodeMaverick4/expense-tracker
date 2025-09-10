@@ -11,13 +11,14 @@ import Profile from "./pages/Profile.jsx";
 import VerifyEmail from "./components/VerifyEmail.jsx";
 import IsLoggedIn from "./components/isLoggedIn.jsx";
 import ForgetPassword from "./pages/forgetPassword.jsx";
+import IsLoggedOut from "./components/isLoggedOut.jsx";
 
 function App() {
   // const haveToken = localStorage.getItem('token')
   return (
     <Routes>
 
-      <Route path={'/'} element={<MainLayout />}>
+      <Route path={'/'} element={<IsLoggedOut><MainLayout /></IsLoggedOut>}>
         <Route path={'Signup'} element={<Signup />} />
         <Route index element={<Login />} />
         <Route path={"/forget-password"} element={<ForgetPassword />} />

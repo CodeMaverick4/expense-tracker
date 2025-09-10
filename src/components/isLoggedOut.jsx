@@ -1,13 +1,13 @@
 import { Navigate } from "react-router-dom"
-import VerifyEmail from "./VerifyEmail"
 import { useSelector } from "react-redux"
 
-const IsLoggedIn = ({children})=>{
+const IsLoggedOut = ({children})=>{
     // const {userData} = useContext(authContext)
     const isLoggedIn = useSelector(state=>state.auth.isLoggedIn)
+    console.log(isLoggedIn)
     return(
-        isLoggedIn ? <VerifyEmail>{children}</VerifyEmail>: <Navigate to={"/"} /> 
+        isLoggedIn ?  <Navigate to={"/home"} /> :children
     )
 }
 
-export default IsLoggedIn
+export default IsLoggedOut

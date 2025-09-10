@@ -2,9 +2,14 @@ import { useContext, useState } from "react";
 import Input from "../components/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { authContext } from "../context/authContext";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/slice/authSlicer"
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
 const Login = () => {
-    const { isLoading, handleLogin } = useContext(authContext);
+    const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [form, setForm] = useState({
         email: "",
@@ -31,8 +36,23 @@ const Login = () => {
             setError(prev => ({ ...prev, password: "Please Enter password" }))
             return
         }
+        
+        if (isLoading) return;
+        try {
+            setIsLoading(true);
+            const res = await signInWithEmailAndPassword(auth, form.email, form.password);
+            const user = res.user
+            const token = await res.user.getIdToken();
+            dispatch(login({user:user,token:token}))
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('token', token);
+            setIsLoading(false);
+            navigate("/home");
 
-        await handleLogin(form)
+        } catch (err) {
+            setIsLoading(false);
+            alert(err.message);
+        }
     };
 
     return (
